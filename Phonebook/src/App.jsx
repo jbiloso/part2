@@ -1,19 +1,35 @@
-import { useState } from 'react' 
+import { useState, useEffect } from 'react'
+import axios from 'axios' 
 import Persons from './components/Persons'
 import FormAdd from './components/FormAdd'
 import SearchFilter from './components/SearchFilter'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { id: 1, name: 'Arto Hellas', number:'39-44-3225225'},
-    { id: 2, name: 'Ada Lovelace', number: '39-44-5323523'},
-    { id: 3, name: 'Dan Abramov', number:'12-43-234345'},
-    { id: 4, name: 'Mary Poppendieck', number: '39-23-6423122'},
-  ])
+  // const [persons, setPersons] = useState([
+  //   { id: 1, name: 'Arto Hellas', number:'39-44-3225225'},
+  //   { id: 2, name: 'Ada Lovelace', number: '39-44-5323523'},
+  //   { id: 3, name: 'Dan Abramov', number:'12-43-234345'},
+  //   { id: 4, name: 'Mary Poppendieck', number: '39-23-6423122'},
+  // ])
+  const [persons, setPersons] = useState([])
 
   const [visiblePersons, setVisiblePersons] = useState(persons)
   const [searchName , setSearchName ] = useState('')
 
+  const hook = () => {
+    console.log('effect')
+    axios
+    .get('http://localhost:3001/persons')
+    .then(response => {
+      console.log('promise fulfilled')
+      setPersons(response.data)
+      // console.log('response.data is ', response.data)
+      // setVisiblePersons()
+      setVisiblePersons(response.data.filter((person)=> person.name.toLowerCase().includes(searchName.toLowerCase())))
+    })
+  }
+  useEffect(hook, [])
+  // console.log('render',persons.length, 'persons')
   return(
     <div>
       <h2>Phonebook</h2>
