@@ -17,7 +17,14 @@ const App = () => {
       id: persons.length+1,
       name: newName
     }
-    setPersons(persons.concat(personObject))
+    // list of names
+    const names = persons.map(person => person.name)
+    // console.log(names.includes(personObject.name))
+    if (!names.includes(personObject.name)){
+      setPersons(persons.concat(personObject)) //add contact
+    }else{
+      {alert(`${personObject.name} is already added to phonebook`)} //show alert
+    }
     setNewName('')
   }
 
@@ -34,10 +41,9 @@ const App = () => {
       </form>
       {/* <div>debug: {newName}</div> */}
       <h2>Numbers</h2>
-      {/* <ol>
-        Persons 
-        {persons.map(person => <li key={person.id}>({person.id}){person.name}</li>)}
-      </ol> */}
+      <ol>
+        {persons.map(person => <div key={person.name}>{person.name}</div>)}
+      </ol>
     </div>
   )
 }
