@@ -47,6 +47,25 @@ const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, sea
 
 
               })
+              .catch(error => {
+              //   console.log('failed to update')
+              //   setNotif(['delete',`Information of ${person.name} has already been removed from server`])
+                const filteredPersons = persons.filter(p => p.id !== person.id);
+                setPersons(filteredPersons);
+                setVisiblePersons(
+                  filteredPersons.filter(p => 
+                    p.name.toLowerCase().includes(searchName.toLowerCase())
+                  )
+                );
+              
+                setNotif([
+                  'delete',
+                  `Information of ${person.name} has already been removed from server`
+                ]);
+              
+              })
+                // Remove the deleted person locally
+
           }
           // personService
           //   .update()
