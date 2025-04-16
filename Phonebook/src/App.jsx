@@ -4,6 +4,8 @@ import Persons from './components/Persons'
 import FormAdd from './components/FormAdd'
 import SearchFilter from './components/SearchFilter'
 
+import personService from './services/persons'
+
 const App = () => {
   // const [persons, setPersons] = useState([
   //   { id: 1, name: 'Arto Hellas', number:'39-44-3225225'},
@@ -18,15 +20,13 @@ const App = () => {
 
   const hook = () => {
     console.log('effect')
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('promise fulfilled')
-      setPersons(response.data)
-      // console.log('response.data is ', response.data)
-      // setVisiblePersons()
-      setVisiblePersons(response.data.filter((person)=> person.name.toLowerCase().includes(searchName.toLowerCase())))
-    })
+    personService
+      .getAll()
+      .then(returnedPersons =>{
+        // console.log('initial persons ',returnedPersons)
+        setPersons(returnedPersons)
+        setVisiblePersons(returnedPersons.filter(p => p.name.toLowerCase().includes(searchName.toLowerCase())))
+      })
   }
   useEffect(hook, [])
   // console.log('render',persons.length, 'persons')
