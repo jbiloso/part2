@@ -3,7 +3,7 @@ import personService from '../services/persons'
 
 
 
-const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, searchName}) => {
+const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, searchName, setNotif}) => {
     
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
@@ -42,7 +42,10 @@ const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, sea
                 // console.log('updated persons: ', updatedPersons)
                 setVisiblePersons(updatedPersons.filter(p => p.name.toLowerCase().includes(searchName.toLowerCase())))
                 // console.log('updated visible persons: ', visiblePersons)
-                alert(`Updated ${person.name}'s number successfully!`)
+                // alert(`Updated ${person.name}'s number successfully!`)
+                setNotif(['update',`Updated ${person.name}'s number`])
+
+
               })
           }
           // personService
@@ -55,10 +58,9 @@ const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, sea
             setPersons(updatedPersons)
             // console.log(updatedPersons)
             setVisiblePersons(updatedPersons.filter(person => person.name.toLowerCase().includes(searchName.toLowerCase())))
+            setNotif(['add',`Added ${returnedPerson.name}`])
           })
         }
-        
-
         setNewName('')
         setNewNumber('')
 

@@ -6,6 +6,8 @@ import SearchFilter from './components/SearchFilter'
 
 import personService from './services/persons'
 
+import Notification from './components/Notification' 
+
 const App = () => {
   // const [persons, setPersons] = useState([
   //   { id: 1, name: 'Arto Hellas', number:'39-44-3225225'},
@@ -17,6 +19,8 @@ const App = () => {
 
   const [visiblePersons, setVisiblePersons] = useState(persons)
   const [searchName , setSearchName ] = useState('')
+  const [notif, setNotif] = useState(['','']) //first parameter is the type , second param is the message 
+                                              //types are : add, delete, update
 
   const hook = () => {
     console.log('effect')
@@ -41,11 +45,14 @@ const App = () => {
             // console.log('current persons after delete, ', currentPersons)
             setPersons(currentPersons)
             setVisiblePersons(currentPersons.filter(p => p.name.toLowerCase().includes(searchName.toLowerCase())))
+            setNotif(['delete',`Deleted ${person.name}`])
+            
         })
   }
   return(
     <div>
       <h2>Phonebook</h2>
+      <Notification type={notif[0]} message={notif[1]}></Notification>
       <SearchFilter 
         persons={persons} 
         visiblePersons={visiblePersons} 
@@ -60,7 +67,8 @@ const App = () => {
         setPersons={setPersons} 
         visiblePersons={visiblePersons} 
         setVisiblePersons={setVisiblePersons} 
-        searchName={searchName}> 
+        searchName={searchName}
+        setNotif= {setNotif}> 
       </FormAdd>
 
       <h3>Numbers</h3>

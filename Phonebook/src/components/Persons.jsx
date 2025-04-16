@@ -3,7 +3,7 @@ const Persons = ({ visiblePersons, deletePerson }) => {
     return (
         <div>
         {visiblePersons.map(person => 
-            <Person person={person} key={person.id} deletePerson={deletePerson}></Person>
+            <Person person={person} key={person.id} deletePerson={deletePerson} ></Person>
         )}
         </div>
     )
