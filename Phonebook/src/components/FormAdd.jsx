@@ -1,4 +1,6 @@
 import { useState } from 'react' 
+import axios from 'axios'
+
 
 const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, searchName}) => {
     
@@ -15,15 +17,23 @@ const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, sea
 
     const addContact = () => {
         event.preventDefault()
-        // console.log('im submitting')
-        // console.log(persons[0].name)
+        //create contact object
         const personObject = {
-          id: persons.length+1,
+          // id: persons.length+1,
           name: newName,
           number: newNumber
         }
-        // setPersons([...persons, personObject])
-        // console.log([...persons, personObject])
+
+        //use axios method 
+        axios
+          .post('http://localhost:3001/persons', personObject)
+          .then(response => {
+            console.log(response.data)
+            const currentPersons = persons.concat(response.data)
+            setPersons(currentPersons)
+            setVisiblePersons(currentPersons.filter((person)=> person.name.toLowerCase().includes(searchName.toLowerCase())))
+          })
+
 
 
         // list of names
