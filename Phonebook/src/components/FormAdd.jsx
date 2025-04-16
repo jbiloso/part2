@@ -1,5 +1,4 @@
 import { useState } from 'react' 
-import axios from 'axios'
 import personService from '../services/persons'
 
 
@@ -25,8 +24,31 @@ const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, sea
           name: newName,
           number: newNumber
         }
-        
-        personService
+
+        const person = persons.find(person => person.name.toLowerCase() === personObject.name.toLowerCase())
+
+        if (person){ //edit 
+          console.log('contact exists') 
+          const confirmUpdate = window.confirm(`Contact name '${personObject.name}' already exists. Do you want to update their number?`)
+          if(confirmUpdate){
+            personService
+              .update(person.id, personObject)
+              .then(response => {
+                // console.log(response)
+                const updatedPersons = persons.map(p => 
+                  p.id === person.id ? response : p
+                )
+                setPersons(updatedPersons)
+                // console.log('updated persons: ', updatedPersons)
+                setVisiblePersons(updatedPersons.filter(p => p.name.toLowerCase().includes(searchName.toLowerCase())))
+                // console.log('updated visible persons: ', visiblePersons)
+                alert(`Updated ${person.name}'s number successfully!`)
+              })
+          }
+          // personService
+          //   .update()
+        }else{ //simply add
+          personService
           .create(personObject)
           .then(returnedPerson => {
             const updatedPersons = persons.concat(returnedPerson)
@@ -34,6 +56,9 @@ const FormAdd = ({ persons , setPersons , visiblePersons, setVisiblePersons, sea
             // console.log(updatedPersons)
             setVisiblePersons(updatedPersons.filter(person => person.name.toLowerCase().includes(searchName.toLowerCase())))
           })
+        }
+        
+
         setNewName('')
         setNewNumber('')
 
