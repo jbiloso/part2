@@ -48,6 +48,21 @@ const App = () => {
             setNotif(['delete',`Deleted ${person.name}`])
             
         })
+        .catch(error => { //this is when trying to delete a contact, that's been deleted from the server using another browser
+            const filteredPersons = persons.filter(p => p.id !== person.id);
+            setPersons(filteredPersons);
+            setVisiblePersons(
+              filteredPersons.filter(p => 
+                p.name.toLowerCase().includes(searchName.toLowerCase())
+              )
+            );
+          
+            setNotif([
+              'delete',
+              `Information of ${person.name} has already been removed from server`
+            ]);
+          
+          })
   }
   return(
     <div>
