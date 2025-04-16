@@ -1,10 +1,10 @@
 import Person from './Person'
-const Persons = ({ visiblePersons }) => {
+const Persons = ({ visiblePersons, deletePerson }) => {
     return (
         <div>
-            <ol>
-                {visiblePersons.map(person => <Person key={person.name} person={person}></Person>)}
-            </ol>
+        {visiblePersons.map(person => 
+            <Person person={person} key={person.id} deletePerson={deletePerson}></Person>
+        )}
         </div>
     )
 }

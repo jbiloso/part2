@@ -30,6 +30,19 @@ const App = () => {
   }
   useEffect(hook, [])
   // console.log('render',persons.length, 'persons')
+
+  const deletePerson = (person) => { 
+    window.confirm(`Are you sure you want to delete ${person.name}?`)
+    personService
+        .remove(person.id)
+        .then(response => {
+            // console.log(response)
+            const currentPersons = persons.filter(p => p.id !== person.id )
+            // console.log('current persons after delete, ', currentPersons)
+            setPersons(currentPersons)
+            setVisiblePersons(currentPersons.filter(p => p.name.toLowerCase().includes(searchName.toLowerCase())))
+        })
+  }
   return(
     <div>
       <h2>Phonebook</h2>
@@ -53,6 +66,7 @@ const App = () => {
       <h3>Numbers</h3>
       <Persons 
         visiblePersons={visiblePersons}
+        deletePerson = {deletePerson}
       ></Persons>
     </div>
   )
