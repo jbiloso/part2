@@ -18,6 +18,15 @@ const App = () => {
     })
   }, [])
 
+  const showCountryInfo = (country) => {
+    // console.log('show info: ',country.name.common)
+
+    //setVisibleCountries to a list with only one item which is the country 
+    //to show info, when we set this, the app renders, and when the visibleCountries.length
+    //is 1, the info of that country gets displayed
+    setVisibleCountries([country]) 
+  }
+
   const handleSearchChange = (event) => {
     const localSearchName = event.target.value 
     console.log(`Searching '${event.target.value}'`)
@@ -58,7 +67,12 @@ const App = () => {
       <div>
         <>find countries </>
         <input type='text' onChange={(event)=> handleSearchChange(event)} placeholder='Search...'></input>
-        {visibleCountries.map(country => <div key={country.name.official}>{country.name.common}</div>)}
+        {visibleCountries.map(country => 
+          <div key={country.name.official}>
+            {country.name.common} 
+            <button onClick={()=> showCountryInfo(country)}>Show</button>
+          </div>)
+        }
       </div>
     )
   }
