@@ -1,3 +1,4 @@
+import Weather from './Weather'
 const Country = ({ country }) => {
     // the .languages of the country is an object with unknown keys 
     // console.log(visibleCountries[0].languages)
@@ -23,6 +24,8 @@ const Country = ({ country }) => {
             <div>
             <img src ={country.flags.png} ></img>
             </div>
+
+            <Weather country={country}></Weather>
         </div>
     )
 }

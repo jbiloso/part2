@@ -15,6 +15,7 @@ const App = () => {
     axios.get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
     .then(response => {
       setCountries(response.data)
+      // console.log('coutries now: ', response.data)
     })
   }, [])
 
